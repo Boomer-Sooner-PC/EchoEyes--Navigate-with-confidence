@@ -8,6 +8,7 @@ angle_dist_to_coords = lambda angle, dist: [int(dist*math.cos(angle)+SIZE/2), in
 color = lambda dist: [x*255 for x in list(Color("red").range_to(Color("green"), int(SIZE/2)))[dist].rgb]
 
 
+# initialize pygame window
 pygame.init()
 screen = pygame.display.set_mode([SIZE, SIZE])
 pygame.display.set_caption("Lidar")
@@ -27,7 +28,7 @@ while running:
 
     try:
         rcv = open("./data/dist_and_angles.txt", "r").readlines()[0]
-        if rcv == 'q': 
+        if rcv == 'q': # escape window
             with open("./data/dist_and_angles.txt", "w") as f:
                 f.write("")
             break
@@ -35,6 +36,7 @@ while running:
             pair = pair.strip()
             angle = int(pair.split(" ")[0])
             distance = int(pair.split(" ")[1])
+            # draw the points given distance an angle
             pygame.draw.circle(screen, color(distance), angle_dist_to_coords(math.radians(angle), distance), 4)
     except Exception as e:
         print(e)
